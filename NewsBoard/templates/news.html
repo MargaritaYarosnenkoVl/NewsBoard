@@ -1,0 +1,35 @@
+{% extends './base.html' %}
+{% load static %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <nav aria-label="breadcrumb" class="mt-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ news.title }}</li>
+                </ol>
+            </nav>
+            <img class="img-fluid rounded " src="{{ news.image.url }}" alt="">
+            <hr>
+            <p class="lead">
+            {{ news.content|safe }}
+            </p>
+            <p class="lead">
+            {{ news.category }}
+            </p>
+            <hr>
+            <p class="lead text-right">Автор: {{ news.author }}</p>
+            <hr>
+            <p class="text-right">Опубликовано {{ news.created_at }}</p>
+            <hr>
+
+
+        </div>
+
+    </div>
+</div>
+</div>
+{% endblock %}
