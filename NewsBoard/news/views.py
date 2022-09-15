@@ -25,8 +25,6 @@ class NewsList(ListView):
         return context
 
 
-
-
 class NewsDetail(DetailView):
     model = Post
     template_name = 'news.html'
@@ -57,6 +55,11 @@ class NewsAdd(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     permission_required = ('news.add_post')
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['author'] = self.request.user
+        return initial
+
 
 class NewsDelete(DeleteView):
     template_name = 'delete.html'
@@ -73,3 +76,5 @@ class NewsUpgrade(PermissionRequiredMixin, UpdateView):
     def get_object(self, **kwargs):
         id = self.kwargs.get('pk')
         return Post.objects.get(pk=id)
+
+

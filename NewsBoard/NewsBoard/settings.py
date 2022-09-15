@@ -49,8 +49,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-
-
 ]
 
 SITE_ID = 1
@@ -73,7 +71,7 @@ ROOT_URLCONF = 'NewsBoard.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -189,9 +187,6 @@ CKEDITOR_CONFIGS = {
                 # put the name of your editor.ui.addButton here
                 'Preview',
                 'Maximize',
-
-
-
             ]},
         ],
         'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
