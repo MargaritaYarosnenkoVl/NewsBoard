@@ -64,7 +64,7 @@ class NewsAdd(PermissionRequiredMixin, CreateView):
 class NewsDelete(DeleteView):
     template_name = 'delete.html'
     queryset = Post.objects.all()
-    success_url = ''
+    success_url = '/'
 
 
 class NewsUpgrade(PermissionRequiredMixin, UpdateView):

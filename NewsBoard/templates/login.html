@@ -1,4 +1,6 @@
-{% extends "main.html" %}
+{% extends './base.html' %}
+{% load static %}
+{% block title %}Главная страница{% endblock %}
 
 {% block content %}
 <h2> Войти в систему </h2>
@@ -17,5 +19,5 @@
 
 <input type="submit" value="Войти">
 </form>
-<button> <a href="/sign/signup"> Регистрация </a></button>
+<button> <a href="/accounts/signup"> Регистрация </a></button>
 {% endblock %}
