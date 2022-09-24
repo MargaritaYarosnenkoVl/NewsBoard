@@ -18,8 +18,12 @@
       <input name="q" type="text" class="form-control mr-sm-2" placeholder="Поиск" aria-label="Поиск">
       <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">Поиск</button>
     </form>
+     {% if user.is_authenticated %}
+    <span class="navbar-text mr-2">{{ user }}</span>
+    <a href="{% url 'logout' %}" class="btn btn-outline-light mr-2">Выход</a>
+    {% else %}
     <a href="{% url 'login' %}" class="btn btn-outline-light mr-2">Вход</a>
     <a href="/accounts/signup" class="btn btn-outline-light mr-2">Регистрация</a>
-    <a href="{% url 'logout' %}" class="btn btn-outline-light mr-2">Выход</a>
+    {% endif %}
   </div>
 </nav>

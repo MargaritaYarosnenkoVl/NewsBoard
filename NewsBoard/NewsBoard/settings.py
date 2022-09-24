@@ -22,7 +22,7 @@ SECRET_KEY = 'django-insecure-=a5zrpscjyd5--0e+pq#-@$$1gpdlu6c*^7m&&&h7^$mdbwn$7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -66,7 +66,7 @@ ROOT_URLCONF = 'NewsBoard.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -139,12 +139,12 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+'''STATIC_ROOT = os.path.join(BASE_DIR, 'static')'''
 
 
-'''STATICFILES_DIRS = [
+STATICFILES_DIRS = [
     BASE_DIR / "static"
-]'''
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -222,9 +222,22 @@ FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'yamargoshka15'
+EMAIL_HOST_PASSWORD = 'ojnsnaorzzdnczfg'
+EMAIL_USE_SSL = True
+EMAIL_FROM = 'yamargoshka15@gmail.com'
+
+SERVER_EMAIL = 'yamargoshka15@gmail.com'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + "@gmail.com"

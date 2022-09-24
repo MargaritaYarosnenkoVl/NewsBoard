@@ -25,11 +25,39 @@
             <hr>
             <p class="text-right">Опубликовано {{ news.created_at }}</p>
             <hr>
-
-
         </div>
 
     </div>
 </div>
 </div>
+
+{% with comments.count as total_comments %}
+    <h2>
+        {{ total_comments }} comment{{ total_comments|pluralize }}
+    </h2>
+{% endwith %}
+
+{% for comment in comments %}
+    <div class="comment">
+        <p class="info">
+            Comment {{ forloop.counter }} by {{ comment.user }}
+            {{ comment.comment_data }}
+        </p>
+        {{ comment.text|linebreaks }}
+    </div>
+{% empty %}
+    <p>Нет комментариев</p>
+{% endfor %}
+
+{% if new_comment %}
+    <h2>Ваш отклик был добавлен</h2>
+{% else %}
+    <h2>Добавить новый отклик</h2>
+    <form action="." method="post">
+        {{ comment_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Добавить отклик"></p>
+    </form>
+{% endif %}
+
 {% endblock %}

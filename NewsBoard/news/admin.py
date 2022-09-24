@@ -15,9 +15,12 @@ class PostAdminForm(forms.ModelForm):
 class PostAdmin(admin.ModelAdmin):
     form = PostAdminForm
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'post', 'comment_data', 'accepted')
+    list_filter = ('accepted', 'comment_data')
+    search_fields = ('user',  'text')
+
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category)
-admin.site.register(Comment)
-admin.site.register(PostCategory)
-admin.site.register(UserCategory)
+admin.site.register(Comment, CommentAdmin)

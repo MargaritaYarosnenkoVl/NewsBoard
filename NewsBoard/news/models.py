@@ -35,12 +35,24 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
 
     comment_data = models.DateField(auto_now_add=True)
     accepted = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['comment_data']
+
+    def __str__(self):
+        return self.text
+
+    '''class Meta:
+        ordering = ('comment_data',)
+
+    def __str__(self):
+        return 'Comment by {} on {}'.format(self.user, self.post)'''
 
 
 class PostCategory(models.Model):
