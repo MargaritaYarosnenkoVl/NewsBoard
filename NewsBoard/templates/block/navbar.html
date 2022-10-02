@@ -11,7 +11,9 @@
         <a href="{% url 'index' %}" class="nav-link">Главная</a>
       </li>
       <li class="nav-item ">
+        {% if user.is_authenticated %}
         <a href="{% url 'add' %}" class="nav-link">Добавить новое объявление</a> <br>
+        {% endif %}
       </li>
     </ul>
     <form action="{% url 'search_results' %}" method="get" class="form-inline my-2 my-lg-0">
@@ -19,11 +21,12 @@
       <button class="btn btn-outline-success my-2 my-sm-0 mr-2" type="submit">Поиск</button>
     </form>
      {% if user.is_authenticated %}
-    <span class="navbar-text mr-2">{{ user }}</span>
+
+    <a href="/profile/" class="btn btn-outline-light mr-2">{{ user }}</a>
     <a href="{% url 'logout' %}" class="btn btn-outline-light mr-2">Выход</a>
     {% else %}
     <a href="{% url 'login' %}" class="btn btn-outline-light mr-2">Вход</a>
-    <a href="/accounts/signup" class="btn btn-outline-light mr-2">Регистрация</a>
+    <a href="/accounts/register/" class="btn btn-outline-light mr-2">Регистрация</a>
     {% endif %}
   </div>
 </nav>

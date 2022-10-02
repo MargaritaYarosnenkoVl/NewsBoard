@@ -31,33 +31,26 @@
 </div>
 </div>
 
-{% with comments.count as total_comments %}
-    <h2>
-        {{ total_comments }} comment{{ total_comments|pluralize }}
-    </h2>
-{% endwith %}
-
-{% for comment in comments %}
-    <div class="comment">
-        <p class="info">
-            Comment {{ forloop.counter }} by {{ comment.user }}
-            {{ comment.comment_data }}
-        </p>
-        {{ comment.text|linebreaks }}
-    </div>
-{% empty %}
-    <p>Нет комментариев</p>
-{% endfor %}
-
-{% if new_comment %}
-    <h2>Ваш отклик был добавлен</h2>
-{% else %}
-    <h2>Добавить новый отклик</h2>
-    <form action="." method="post">
-        {{ comment_form.as_p }}
-        {% csrf_token %}
-        <p><input type="submit" value="Добавить отклик"></p>
-    </form>
+{% if user != news.user and user.is_authenticated %}
+<p></p>
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <p></p>
+    <input type="submit" value="Откликнуться">
+</form>
 {% endif %}
+<h2 style="text-align: left;">Отклики</h2>
 
-{% endblock %}
+
+
+{% for comment in news.comments.all %}
+<div class="media mb-4">
+    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+    <div class="media-body">
+        <h5 class="mt-0">{{comment.user}}</h5>
+        {{comment.text}}
+    </div>
+</div>
+{% endfor %}
+{% endblock content %}

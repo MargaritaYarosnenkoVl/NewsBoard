@@ -23,7 +23,8 @@ class Post(models.Model):
     content = RichTextUploadingField()
     image = models.ImageField()
     created_at = models.DateField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
+
 
     categories = models.ManyToManyField(Category, through='PostCategory', verbose_name='Категория')
 
@@ -37,16 +38,19 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField()
+    text = models.TextField(max_length=255,  verbose_name='Текст')
 
     comment_data = models.DateField(auto_now_add=True)
-    accepted = models.BooleanField(default=False)
+    accepted = models.BooleanField(default=False, verbose_name='Принято')
 
     class Meta:
-        ordering = ['comment_data']
+        unique_together = ('post', 'user')
 
     def __str__(self):
-        return self.text
+        return f'{self.text}'
+
+    def is_accept(self):
+        return self.accepted
 
     '''class Meta:
         ordering = ('comment_data',)
