@@ -148,12 +148,6 @@ class Accept(UpdateView):
         id = self.kwargs.get('pk')
         Comment.objects.filter(pk=id).update(accepted=True)
         user = self.object.user
-        send_mail(
-            subject='Вас выбрали!',
-            message=f'Пользователь выбрал ваш отклик.',
-            from_email='yamargoshka15@gmail.com',
-            recipient_list=[User.objects.filter(username=user).values("email")[0]['email']]
-        )
         return context
 
 
