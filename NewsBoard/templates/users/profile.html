@@ -1,6 +1,6 @@
 {% extends '../base.html' %}
 {% load static %}
-{% block title %}Личный кабинет{% endblock %}
+{% block title %}Личный кабинет {{ user }} {% endblock %}
 
 {% block content %}
 <p></p>
@@ -16,7 +16,8 @@
     {% if com.post_id == coms.id %}
     <li class="list-group-item" href="{% url 'news' com.id %}">
         <b>{{ coms.title}}</b>
-
+        <br>
+        <span>{{ com.user }}</span>
         <br>
         <span class="pull-right mr-3"><a href="{% url 'news' com.id %}">Посмотреть</a></span>
         {% if not com.is_accept %}

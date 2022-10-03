@@ -18,7 +18,7 @@
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <a href="{% url 'news' post.id %}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
-                  {% if user.is_authenticated %}
+                  {% if user == post.author %}
                   <a href="{% url 'edit' post.id %}" class="btn btn-sm btn-outline-secondary"><u>Редактировать</u></a>
                   <a href="{% url 'delete' post.id %}" class="btn btn-sm btn-outline-secondary"><u> Удалить </u></a>
                   {% endif %}

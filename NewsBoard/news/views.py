@@ -35,20 +35,27 @@ class NewsList(ListView):
         context['form'] = PostForm()
         return context
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['author'] = self.request.user
+        return initial
+
 
 class NewsDetail(FormMixin, DetailView):
     model = Post
     template_name = 'news.html'
     context_object_name = 'news'
     form_class = CommentForm
-    queryset = Post.objects.all()
+
 
     def post(self, request, *args, **kwargs):
+
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
 
     def form_valid(self, form, **kwargs):
         try:
@@ -63,31 +70,7 @@ class NewsDetail(FormMixin, DetailView):
     def get_success_url(self, **kwargs):
         return reverse_lazy('news', kwargs={'pk': self.get_object().id})
 
-class Accept(UpdateView):
-    model = Comment
-    template_name = 'accept.html'
-    form_class = CommentForm
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['message'] = 'Вы приняли отклик!'
-        id = self.kwargs.get('pk')
-        Comment.objects.filter(pk=id).update(accepted=True)
-        user = self.object.user
-
-        return context
-
-class Cans(UpdateView):
-    model = Comment
-    template_name = 'accept.html'
-    form_class = CommentForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['message'] = 'Вы отменили отклик!'
-        id = self.kwargs.get('pk')
-        Comment.objects.filter(pk=id).update(accepted=False)
-        return context
 
 
 class Search(View):
@@ -138,6 +121,7 @@ class NewsUpgrade(PermissionRequiredMixin, UpdateView):
 
 class UserView(ListView):
     model = Post
+    #ordering = '-comment_data'
     template_name = 'users/profile.html'
     context_object_name = 'profile'
     queryset = Comment.objects.order_by('-comment_data')
@@ -150,27 +134,38 @@ class UserView(ListView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['user'] = self.request.user
+        initial['author'] = self.request.user
         return initial
 
-'''def usual_login_view(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(request, username=username, password=password)
-    if user is not None:
-        OneTimeCode.objects.create(code=random.choice('abcde'), user=user)
-        if user.is_active:
-            login(request, user)
-            #send code
-            #redirect
-        else:
-            return HttpResponse('Invalid login')
+class Accept(UpdateView):
+    model = Comment
+    template_name = 'accept.html'
+    form_class = CommentForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['message'] = 'Вы приняли отклик!'
+        id = self.kwargs.get('pk')
+        Comment.objects.filter(pk=id).update(accepted=True)
+        user = self.object.user
+        send_mail(
+            subject='Вас выбрали!',
+            message=f'Пользователь выбрал ваш отклик.',
+            from_email='yamargoshka15@gmail.com',
+            recipient_list=[User.objects.filter(username=user).values("email")[0]['email']]
+        )
+        return context
 
 
-def login_with_code_view(request):
-    username = request.POST['username']
-    code = request.POST['code']
-    if OneTimeCode.objects.filter(code=code, user__username=username).exits():
-        login(request, user)
-        else:
-            return HttpResponse('Disabled account')'''
+
+class Cans(UpdateView):
+    model = Comment
+    template_name = 'accept.html'
+    form_class = CommentForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['message'] = 'Вы отменили отклик!'
+        id = self.kwargs.get('pk')
+        Comment.objects.filter(pk=id).update(accepted=False)
+        return context

@@ -31,26 +31,43 @@
 </div>
 </div>
 
-{% if user != news.user and user.is_authenticated %}
+{% if user != news.author and user.is_authenticated %}
 <p></p>
 <form method="POST">
     {% csrf_token %}
     {{ form }}
     <p></p>
-    <input type="submit" value="Откликнуться">
+    <input type="submit" value="Оставить отклик">
 </form>
 {% endif %}
 <h2 style="text-align: left;">Отклики</h2>
 
 
 
-{% for comment in news.comments.all %}
-<div class="media mb-4">
-    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-    <div class="media-body">
-        <h5 class="mt-0">{{comment.user}}</h5>
-        {{comment.text}}
+{% for com in news.comments.all %}
+{% if com.is_accept or user == news.author %}
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <div class="d-flex text-muted pt-3">
+        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+            <div class="d-flex justify-content-between">
+                <strong class="text-gray-dark">{{ com.user }}</strong>
+            </div>
+            <span class="d-block"><h3 style="text-align: left;">{{ com.text }}</h3></span>
+            <strong class="text-gray-dark">{{ com.comment_data }}</strong>
+            {% else %}
+            <h3 style="text-align: left;">Откликов нет</h3>
+            {% endif %}
+            {% if user == news.author %}
+            {% if not com.is_accept %}
+            <span class="pull-right mr-3"><a href="{% url 'accept' news.id %}">Принять</a></span>
+            {% else %}
+            <span class="pull-right mr-3"><a href="{% url 'cancel' news.id %}">Отменить</a></span>
+            {% endif %}
+            {% endif %}
+        </div>
     </div>
 </div>
+
 {% endfor %}
+
 {% endblock content %}
