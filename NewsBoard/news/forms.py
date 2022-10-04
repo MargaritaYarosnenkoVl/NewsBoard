@@ -20,15 +20,21 @@ class PostForm(ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-    text = forms.CharField(label='Текст', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    #text = forms.CharField(label='Текст', widget=forms.TextInput(attrs={'class': 'form-input'}))
 
     class Meta:
         model = Comment
         fields = ('text',)
+        widgets = {
+            'text': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3
+            }),
+        }
 
-    def __init__(self, *args, **kwargs):
+    '''def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'form-control'
+            self.fields[field].widget.attrs['class'] = 'form-control'''
 
 

@@ -18,17 +18,17 @@
         <b>{{ coms.title}}</b>
         <br>
         <span>{{ com.user }}</span>
+        <span class="pull-right mr-3"><a href="{% url 'news' coms.id %}">Посмотреть</a></span>
         <br>
-        <span class="pull-right mr-3"><a href="{% url 'news' com.id %}">Посмотреть</a></span>
         {% if not com.is_accept %}
         <span class="pull-right mr-3"><a href="{% url 'accept' com.id %}">Принять</a></span>
+        {% else %}
         <span class="pull-right mr-3"><a href="{% url 'cancel' com.id %}">Отменить</a></span>
         <br>
         {% endif %}
         <span>{{ com.text }}</span>
         {% if com.is_accept %}
         <div class="pull-right"><b>Принят</b></div>
-        <span class="pull-right mr-3"><a href="{% url 'cancel' com.id %}">Отменить отклик</a></span>
         {% endif %}
         {% endif %}
         {% endfor %}

@@ -4,6 +4,11 @@
 {% block title %} Личный кабинет {{ user }}{% endblock title %}
 
 {% block content %}
-{{ message }}
-
+<h2>{{ message }}</h2>
+<p></p>
+<p></p>
+<p></p>
+<form action="{% url 'profile' %}" method="get" class="form-inline my-2 my-lg-0">
+      <button class="nav-link" type="submit">Вернуться назад</button>
+    </form>
 {% endblock content %}

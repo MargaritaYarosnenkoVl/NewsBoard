@@ -29,8 +29,8 @@
 
     </div>
 </div>
-</div>
 
+<div class="container">
 {% if user != news.author and user.is_authenticated %}
 <p></p>
 <form method="POST">
@@ -41,7 +41,7 @@
 </form>
 {% endif %}
 <h2 style="text-align: left;">Отклики</h2>
-
+</div>
 
 
 {% for com in news.comments.all %}
@@ -54,8 +54,7 @@
             </div>
             <span class="d-block"><h3 style="text-align: left;">{{ com.text }}</h3></span>
             <strong class="text-gray-dark">{{ com.comment_data }}</strong>
-            {% else %}
-            <h3 style="text-align: left;">Откликов нет</h3>
+
             {% endif %}
             {% if user == news.author %}
             {% if not com.is_accept %}
