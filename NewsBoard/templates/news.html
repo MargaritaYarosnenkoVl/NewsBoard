@@ -30,7 +30,8 @@
     </div>
 </div>
 
-<div class="container">
+
+
 {% if user != news.author and user.is_authenticated %}
 <p></p>
 <form method="POST">
@@ -41,7 +42,7 @@
 </form>
 {% endif %}
 <h2 style="text-align: left;">Отклики</h2>
-</div>
+
 
 
 {% for com in news.comments.all %}

@@ -7,9 +7,9 @@ from .models import Post, Comment
 class PostForm(ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'image', 'content', 'categories', 'author']
+        fields = ['title', 'image', 'content', 'categories', 'user']
         widgets = {
-            'author': forms.HiddenInput(),
+            'user': forms.HiddenInput(),
         }
         labels = {
             'title': _('Заголовок'),

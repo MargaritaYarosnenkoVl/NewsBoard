@@ -37,7 +37,7 @@ class NewsList(ListView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['author'] = self.request.user
+        initial['user'] = self.request.user
         return initial
 
 
@@ -46,16 +46,16 @@ class NewsDetail(FormMixin, DetailView):
     template_name = 'news.html'
     context_object_name = 'news'
     form_class = CommentForm
+    queryset = Post.objects.all()
 
 
     def post(self, request, *args, **kwargs):
-
         form = self.get_form()
+        pk = self.kwargs.get('pk')
         if form.is_valid():
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
-
 
     def form_valid(self, form, **kwargs):
         try:
@@ -99,8 +99,16 @@ class NewsAdd(LoginRequiredMixin, CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['author'] = self.request.user
+        initial['user'] = self.request.user
         return initial
+
+    def post(self, request, *args, **kwargs):
+        post_mail = Post(user=request.POST.get('user'),
+                         title=request.POST.get('title'),
+                         text=request.POST.get('text'))
+        post_mail.save()
+        post_mail.categorys.add(*request.POST.getlist('categorys'))
+        return redirect('/')
 
 
 class NewsDelete(DeleteView):
@@ -134,13 +142,14 @@ class UserView(ListView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['author'] = self.request.user
+        initial['user'] = self.request.user
         return initial
 
 class Accept(UpdateView):
     model = Comment
     template_name = 'accept.html'
     form_class = CommentForm
+    context_object_name = 'accept'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -148,6 +157,12 @@ class Accept(UpdateView):
         id = self.kwargs.get('pk')
         Comment.objects.filter(pk=id).update(accepted=True)
         user = self.object.user
+        send_mail(
+            subject='Ваш отклик опубликован!',
+            message=f'Пользователь опубликовал Ваш отклик.',
+            from_email='yamargoshka15@gmail.com',
+            recipient_list=[User.objects.filter(username=user).values("email")[0]['email']]
+        )
         return context
 
 
@@ -163,3 +178,4 @@ class Cans(UpdateView):
         id = self.kwargs.get('pk')
         Comment.objects.filter(pk=id).update(accepted=False)
         return context
+

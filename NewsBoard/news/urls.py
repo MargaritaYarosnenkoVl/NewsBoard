@@ -11,4 +11,5 @@ urlpatterns = [
     path('profile/', UserView.as_view(), name='profile'),
     path('accept/<int:pk>/', Accept.as_view(), name='accept'),
     path('cancel/<int:pk>/', Cans.as_view(), name='cancel'),
+
     ]

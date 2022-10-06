@@ -4,6 +4,8 @@
 
 {% block content %}
 <p></p>
+<p>Введите код, который был отправлен на Вашу электронную почту</p>
+<p></p>
 <form method="POST">
     {% csrf_token %}
     {{ form }}
@@ -11,6 +13,7 @@
 </form>
 {{ error }}
 <p></p>
+<p>Если код не пришел, пожалуйста, отправьте запрос еще раз</p>
 <form method="POST">
     {% csrf_token %}
     <input type="submit" value="Отправить код на почту" name="_send">

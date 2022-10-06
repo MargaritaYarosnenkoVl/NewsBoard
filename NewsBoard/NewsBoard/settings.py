@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'news',
+    'news.apps.NewsConfig',
     'protect',
     'ckeditor',
     'ckeditor_uploader',
