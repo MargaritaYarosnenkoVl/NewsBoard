@@ -234,3 +234,12 @@ EMAIL_FROM = 'yamargoshka15@gmail.com'
 
 SERVER_EMAIL = 'yamargoshka15@gmail.com'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + "@gmail.com"
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
+
+CELERY_BROKER_URL = 'redis://:EiepZ5Qne3SeDHzTAt2X2Zjx5Ku5OrPE@redis-10800.c232.us-east-1-2.ec2.cloud.redislabs.com:10800/0'
+CELERY_RESULT_BACKEND = 'redis://:EiepZ5Qne3SeDHzTAt2X2Zjx5Ku5OrPE@redis-10800.c232.us-east-1-2.ec2.cloud.redislabs.com:10800/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
