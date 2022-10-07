@@ -20,7 +20,6 @@ class PostForm(ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-    #text = forms.CharField(label='Текст', widget=forms.TextInput(attrs={'class': 'form-input'}))
 
     class Meta:
         model = Comment
@@ -32,9 +31,6 @@ class CommentForm(forms.ModelForm):
             }),
         }
 
-    '''def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'form-control'''
+
 
 

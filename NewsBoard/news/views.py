@@ -102,25 +102,18 @@ class NewsAdd(LoginRequiredMixin, CreateView):
         initial['user'] = self.request.user
         return initial
 
-    def post(self, request, *args, **kwargs):
-        post_mail = Post(user=request.POST.get('user'),
-                         title=request.POST.get('title'),
-                         text=request.POST.get('text'))
-        post_mail.save()
-        post_mail.categorys.add(*request.POST.getlist('categorys'))
-        return redirect('/')
 
 
-class NewsDelete(DeleteView):
+class NewsDelete(LoginRequiredMixin, DeleteView):
     template_name = 'delete.html'
     queryset = Post.objects.all()
     success_url = '/'
 
 
-class NewsUpgrade(PermissionRequiredMixin, UpdateView):
+class NewsUpgrade(LoginRequiredMixin, UpdateView):
     template_name = 'add.html'
     form_class = PostForm
-    permission_required = ('news.change_post')
+
 
     def get_object(self, **kwargs):
         id = self.kwargs.get('pk')
