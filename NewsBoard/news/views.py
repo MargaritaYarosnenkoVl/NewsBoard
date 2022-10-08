@@ -1,19 +1,13 @@
-import random
-
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.views import View
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
-#from .filters import SearchFilter
 from django.views.generic.edit import FormMixin
 from django.db import IntegrityError
 from django.urls import reverse_lazy
-
 from .filters import ProfileFilter
 from .models import Post, Category, Comment
 from django.db.models import Q
@@ -30,7 +24,6 @@ class NewsList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context['category'] = Category.objects.all()
         context['form'] = PostForm()
         return context
@@ -47,7 +40,6 @@ class NewsDetail(FormMixin, DetailView):
     context_object_name = 'news'
     form_class = CommentForm
     queryset = Post.objects.all()
-
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -69,8 +61,6 @@ class NewsDetail(FormMixin, DetailView):
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('news', kwargs={'pk': self.get_object().id})
-
-
 
 
 class Search(View):
@@ -96,12 +86,10 @@ class NewsAdd(LoginRequiredMixin, CreateView):
     template_name = 'add.html'
     form_class = PostForm
 
-
     def get_initial(self):
         initial = super().get_initial()
         initial['user'] = self.request.user
         return initial
-
 
 
 class NewsDelete(LoginRequiredMixin, DeleteView):
@@ -114,7 +102,6 @@ class NewsUpgrade(LoginRequiredMixin, UpdateView):
     template_name = 'add.html'
     form_class = PostForm
 
-
     def get_object(self, **kwargs):
         id = self.kwargs.get('pk')
         return Post.objects.get(pk=id)
@@ -122,7 +109,6 @@ class NewsUpgrade(LoginRequiredMixin, UpdateView):
 
 class UserView(ListView):
     model = Post
-    #ordering = '-comment_data'
     template_name = 'users/profile.html'
     context_object_name = 'profile'
     queryset = Comment.objects.order_by('-comment_data')
@@ -130,13 +116,13 @@ class UserView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = ProfileFilter(self.request.GET, queryset=self.get_queryset())
-
         return context
 
     def get_initial(self):
         initial = super().get_initial()
         initial['user'] = self.request.user
         return initial
+
 
 class Accept(UpdateView):
     model = Comment
@@ -157,7 +143,6 @@ class Accept(UpdateView):
             recipient_list=[User.objects.filter(username=user).values("email")[0]['email']]
         )
         return context
-
 
 
 class Cans(UpdateView):

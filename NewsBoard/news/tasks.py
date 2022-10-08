@@ -1,7 +1,5 @@
 import datetime
 from celery import shared_task
-
-from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
@@ -21,7 +19,7 @@ def celery_week_mails():
         user = User.objects.get(email=email)
 
         html_content = render_to_string('account/email/week_email.html',
-                                        {'posts': posts,}, )
+                                        {'posts': posts, 'user': user}, )
         msg = EmailMultiAlternatives(
             subject=f'"Еженедельная подписка (celery)"',
             body="Новости",

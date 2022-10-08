@@ -1,19 +1,14 @@
 import random
 
 from django.contrib.auth import logout, login
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.core.exceptions import ValidationError
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-
 from .forms import RegisterUserForm, CodeForm, LoginUserForm
 from django.contrib.auth.models import User
-from django.views.generic import CreateView, TemplateView, UpdateView
+from django.views.generic import CreateView, UpdateView
 from .models import UserCode
 from django.core.mail import send_mail
-from django.db.models import F
 from .utils import DataMixin
 
 
@@ -98,8 +93,6 @@ class RegisterUserCode(UpdateView):
         if q['code'] == q['code2']:
             print('true')
             UserCode.objects.filter(user=self.request.user).update(valid=True)
-        # UserCode.objects.filter(user=self.request.user).update(code=random.randint(10000, 99999))
-
         send_mail(
             subject=f'Code',
             message=f'{UserCode.objects.filter(user=self.request.user).values("code")}',
