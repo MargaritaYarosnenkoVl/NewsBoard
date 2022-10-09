@@ -139,7 +139,7 @@ class Accept(UpdateView):
         send_mail(
             subject='Ваш отклик опубликован!',
             message=f'Пользователь опубликовал Ваш отклик.',
-            from_email='yamargoshka15@gmail.com',
+            from_email='yamargoshka@inbox.ru',
             recipient_list=[User.objects.filter(username=user).values("email")[0]['email']]
         )
         return context

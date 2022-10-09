@@ -12,7 +12,7 @@ def send_mail_resp(sender, instance, created, **kwargs):
         send_mail(
             subject='Новый отклик',
             message=f'{instance.user} оставил отклик на Ваше обьявление: {instance.text}',
-            from_email='yamargoshka15@gmail.com',
+            from_email='yamargoshka@inbox.ru',
             recipient_list=[User.objects.filter(username=user).values("email")[0]['email']],
         )
 
