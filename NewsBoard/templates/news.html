@@ -18,10 +18,10 @@
             {{ news.content|safe }}
             </p>
             <p class="lead">
-            {{ news.category }}
+            <p class="text-right">Категория: {{ news.categories }}</p>
             </p>
             <hr>
-            <p class="lead text-right">Автор: {{ news.author }}</p>
+            <p class="lead text-right">Автор: {{ news.user }}</p>
             <hr>
             <p class="text-right">Опубликовано {{ news.created_at }}</p>
             <hr>
@@ -32,7 +32,7 @@
 
 
 
-{% if user != news.author and user.is_authenticated %}
+{% if user != news.user and user.is_authenticated %}
 <p></p>
 <form method="POST">
     {% csrf_token %}

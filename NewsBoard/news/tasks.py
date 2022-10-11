@@ -15,16 +15,13 @@ def celery_week_mails():
     posts = Post.objects.filter(created_at__range=(start_date, end_date))
     users = User.objects.all()
     users_emails = [user.email for user in users]
-    for email in users_emails:
-        user = User.objects.get(email=email)
-
-        html_content = render_to_string('account/email/week_email.html',
-                                        {'posts': posts, 'user': user}, )
-        msg = EmailMultiAlternatives(
-            subject=f'"Еженедельная подписка (celery)"',
-            body="Новости",
-            from_email='yamargoshka@inbox.ru',
-            to=users_emails)
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+    html_content = render_to_string('account/email/week_email.html',
+                                        {'posts': posts,}, )
+    msg = EmailMultiAlternatives(
+        subject=f'"Еженедельная подписка (celery)"',
+        body="Новости",
+        from_email='yamargoshka@inbox.ru',
+        to=users_emails)
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
 

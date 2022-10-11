@@ -232,7 +232,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 EMAIL_HOST = 'smtp.inbox.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'yamargoshka'
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_PASSWORD = '848h5LfH4DtUdhVbGGgR'
 EMAIL_USE_SSL = True
 EMAIL_FROM = 'yamargoshka@inbox.ru'
 

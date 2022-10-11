@@ -34,7 +34,7 @@ def s_mail(obj, user):
     send_mail(
         subject='Код подтверждения',
         message=f'{getattr(obj, "code")}',
-        from_email='yamargoshka15@gmail.com',
+        from_email='yamargoshka@inbox.ru',
         recipient_list=[User.objects.filter(username=user).values("email")[0]['email']]
     )
 
@@ -96,7 +96,7 @@ class RegisterUserCode(UpdateView):
         send_mail(
             subject=f'Code',
             message=f'{UserCode.objects.filter(user=self.request.user).values("code")}',
-            from_email='yamargoshka15@gmail.com',
+            from_email='yamargoshka@inbox.ru',
             recipient_list=[User.objects.filter(username=self.request.user).values("email")[0]['email']]
         )
         return UserCode.objects.get(user=user)

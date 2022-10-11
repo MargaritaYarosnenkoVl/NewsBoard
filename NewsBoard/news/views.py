@@ -9,7 +9,7 @@ from django.views.generic.edit import FormMixin
 from django.db import IntegrityError
 from django.urls import reverse_lazy
 from .filters import ProfileFilter
-from .models import Post, Category, Comment
+from .models import Post, Comment
 from django.db.models import Q
 from .forms import PostForm, CommentForm
 
@@ -24,7 +24,6 @@ class NewsList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['category'] = Category.objects.all()
         context['form'] = PostForm()
         return context
 

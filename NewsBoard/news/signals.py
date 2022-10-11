@@ -11,7 +11,7 @@ def send_mail_resp(sender, instance, created, **kwargs):
         user = Post.objects.get(pk=instance.post_id).user
         send_mail(
             subject='Новый отклик',
-            message=f'{instance.user} оставил отклик на Ваше обьявление: {instance.text}',
+            message=f'{instance.user} оставил отклик на Ваше объявление: {instance.text}',
             from_email='yamargoshka@inbox.ru',
             recipient_list=[User.objects.filter(username=user).values("email")[0]['email']],
         )
